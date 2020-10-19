@@ -23,6 +23,6 @@ jobs:
           python-version: 3.7
           auto-activate-base: false
       - name: Run Pytest
-        run: pytest -v
+        run: python -m pytest
       - name: Run Type Check
-        run: mypy -v
+        run: python -m mypy
