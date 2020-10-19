@@ -1,17 +1,7 @@
-from dataclasses import dataclass
-
 import torch
 from torch import nn
 
-
-@dataclass
-class Metric:
-    loss: float
-    accuracy: float
-
-    def __repr__(self) -> str:
-        acc_percent = self.accuracy * 100
-        return f"loss: {self.loss:.03f}, acc: {acc_percent:.03f}%"
+from .metric import Metric
 
 
 class DPCLoss(nn.Module):
@@ -41,9 +31,11 @@ class DPCLoss(nn.Module):
         with torch.no_grad():
             # top1: (BNHW)
             top1 = lossmat.argmax(1)
-            acc = torch.eq(top1, target).sum().item() / top1.size(0)
-        self.metric = Metric(loss=loss.item(), accuracy=acc)
-        return loss
+            acc = torch.eq(top1, target).sum().item() / top1.size(0) * 100
+        return (
+            loss,
+            Metric(metrics={"loss": loss.item(), "accuracy": acc}, target_value=acc),
+        )
 
 
 class ClassificationLoss(nn.Module):

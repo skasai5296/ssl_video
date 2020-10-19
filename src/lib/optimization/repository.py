@@ -5,7 +5,9 @@ from torch import nn, optim
 from torch.optim import lr_scheduler
 
 OPTIMIZER_TYPE = Any  # change to optim.Optimizer for torch >= 1.5.0
-SCHEDULER_TYPE = Union[lr_scheduler._LRScheduler, lr_scheduler.ReduceLROnPlateau]
+SCHEDULER_TYPE = (
+    Any  # change to Union[lr_scheduler._LRScheduler, lr_scheduler.ReduceLROnPlateau]
+)
 
 
 class OptimizerRepository:

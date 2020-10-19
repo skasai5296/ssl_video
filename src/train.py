@@ -1,6 +1,5 @@
 import argparse
 from dataclasses import dataclass
-from typing import Optional
 
 import torch
 from torch import nn
@@ -65,12 +64,12 @@ class Trainer:
         for it, data in enumerate(dataloader, 1):
             self.model.zero_grad()
             out = self.model(data.clip.to(self.device))
-            loss = self.criterion(*out)
+            loss, metric = self.criterion(*out)
             loss.backward()
             self.settings.optimizer.step()
             if it % 1 == 0:
-                print(f"{it:06d}/{max_it:06d}, {self.criterion.metric}")
-        self._scheduler_step(metrics=self.criterion.metric.accuracy)
+                print(f"{it:06d}/{max_it:06d}, {metric}")
+        self._scheduler_step(metrics=metric.target_value)
 
     def train(self, dataloader: DataLoader):
         self.model.train()
