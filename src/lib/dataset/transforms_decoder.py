@@ -1,11 +1,11 @@
 import json
-from typing import Any, Dict, Mapping, Tuple
+from typing import Any, Dict, List, Mapping, Tuple
 
 from . import spatial_transforms, temporal_transforms
 
 
 class SpatialTransformRepository:
-    def __init__(self, mean: float, std: float):
+    def __init__(self, mean: List[float], std: List[float]):
         self._SPATIAL_TRANSFORM_MAPPING: Mapping[str, Tuple[Any, Dict]] = {
             "resize": (spatial_transforms.Resize, {}),
             "resizedcrop": (spatial_transforms.RandomResizedCrop, {}),

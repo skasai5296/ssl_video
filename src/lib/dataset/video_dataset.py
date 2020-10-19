@@ -1,14 +1,32 @@
 import enum
 import glob
+import io
 import json
 import os
 from dataclasses import dataclass
 from typing import Dict, List, Set, Tuple
 
+import h5py
 import torch
+from PIL import Image
 from torch.utils.data import Dataset
 
-from . import spatial_transforms, temporal_transforms, utils
+from . import spatial_transforms, temporal_transforms
+
+
+class VideoLoaderHDF5:
+    def __call__(self, video_path: str, frame_indices: List[int]) -> List[Image.Image]:
+        with h5py.File(video_path, "r") as f:
+            video_data = f["video"]
+
+            video = []
+            for i in frame_indices:
+                if i < len(video_data):
+                    video.append(Image.open(io.BytesIO(video_data[i])))
+                else:
+                    return video
+
+        return video
 
 
 @dataclass
@@ -61,7 +79,7 @@ class VideoDataRepository(Dataset):
         temporal_transform: temporal_transforms.Compose,
         mode: Mode = Mode.TRAIN,
     ):
-        self.loader = utils.VideoLoaderHDF5()
+        self.loader = VideoLoaderHDF5()
         self.spatial_transform = spatial_transform
         self.temporal_transform = temporal_transform
         self.clip_len = clip_len

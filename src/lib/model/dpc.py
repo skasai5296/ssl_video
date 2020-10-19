@@ -1,3 +1,6 @@
+import json
+from dataclasses import dataclass
+
 import torch
 from torch import nn
 from torchvision.models.video import r3d_18
@@ -180,3 +183,29 @@ class DPC(nn.Module):
         _, hidden = self.rnn(out[:, : self.n_clip - self.pred_step, ...])
         hidden = hidden[:, -1, ...]
         return hidden
+
+
+@dataclass
+class DPCSettings:
+    n_clip: int
+    input_size: int
+    hidden_size: int
+    kernel_size: int
+    num_layers: int
+    pred_step: int
+    dropout: float
+
+
+class DPCSettingsRepository:
+    def get_settings(self, path: str) -> DPCSettings:
+        with open(path, "r") as f:
+            obj = json.load(f)
+        return DPCSettings(
+            n_clip=obj["n_clip"],
+            input_size=obj["input_size"],
+            hidden_size=obj["hidden_size"],
+            kernel_size=obj["kernel_size"],
+            num_layers=obj["num_layers"],
+            pred_step=obj["pred_step"],
+            dropout=obj["dropout"],
+        )

@@ -1,23 +1,8 @@
-import io
+import argparse
 from typing import List, Tuple
 
-import h5py
-from PIL import Image
-
-
-class VideoLoaderHDF5:
-    def __call__(self, video_path: str, frame_indices: List[int]) -> List[Image.Image]:
-        with h5py.File(video_path, "r") as f:
-            video_data = f["video"]
-
-            video = []
-            for i in frame_indices:
-                if i < len(video_data):
-                    video.append(Image.open(io.BytesIO(video_data[i])))
-                else:
-                    return video
-
-        return video
+from . import spatial_transforms, temporal_transforms
+from .video_dataset import VideoDataRepository
 
 
 def get_stats() -> Tuple[List[float], List[float]]:
@@ -26,6 +11,31 @@ def get_stats() -> Tuple[List[float], List[float]]:
     mean = [110.63666788 / maximum, 103.16065604 / maximum, 96.29023126 / maximum]
     std = [38.7568578 / maximum, 37.88248729 / maximum, 40.02898126 / maximum]
     return mean, std
+
+
+def get_dataset(
+    args: argparse.Namespace,
+    spatial_transform: spatial_transforms.Compose,
+    temporal_transform: temporal_transforms.Compose,
+    **kwargs,
+) -> VideoDataRepository:
+    if args.model == "dpc":
+        clip_len: int = kwargs["clip_len"]
+        n_clip: int = kwargs["n_clip"]
+        downsample: int = kwargs["downsample"]
+        dataset = VideoDataRepository(
+            root_path=args.root_path,
+            hdf_path=args.hdf_path,
+            ann_path=args.ann_path,
+            clip_len=clip_len,
+            n_clip=n_clip,
+            downsample=downsample,
+            spatial_transform=spatial_transform,
+            temporal_transform=temporal_transform,
+        )
+    else:
+        raise NotImplementedError(f"dataset {args.dataset} not supported.")
+    return dataset
 
 
 # def get_transforms(
@@ -148,15 +158,3 @@ def get_stats() -> Tuple[List[float], List[float]]:
 #    )
 #    return sp_t, tp_t
 #
-#
-# def collate_fn(datalist: List[Dict]) -> Dict:
-#    clips: List[torch.Tensor] = []
-#    labels: List[str] = []
-#    for data in datalist:
-#        clip = data["clip"]
-#        label = data["label"]
-#        clips.append(clip)
-#        labels.append(label)
-#    clip_tensor: torch.Tensor = torch.stack(clips)
-#    label_tensor: torch.Tensor = torch.tensor(labels, dtype=torch.long)
-#    return {"clip": clip_tensor, "label": label_tensor}
