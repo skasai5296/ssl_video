@@ -1,0 +1,63 @@
+{
+  "spatial_transforms": [
+    {
+      "name": "resize",
+      "args": {
+        "size": 128
+      }
+    },
+    {
+      "name": "resizedcrop",
+      "args": {
+        "size": 112,
+        "scale": [
+          0.5,
+          1.0
+        ]
+      }
+    },
+    {
+      "name": "horizontalflip",
+      "args": {
+        "p": 0.5
+      }
+    },
+    {
+      "name": "grayscale",
+      "args": {
+        "p": 0.5
+      }
+    },
+    {
+      "name": "colorjitter",
+      "args": {
+        "brightness": 0.5,
+        "contrast": 0.5,
+        "saturation": 0.5,
+        "hue": 0.25
+      }
+    },
+    {
+      "name": "totensor",
+      "args": {}
+    },
+    {
+      "name": "normalize",
+      "args": {}
+    }
+  ],
+  "temporal_transforms": [
+    {
+      "name": "subsampling",
+      "args": {
+        "stride": 3
+      }
+    },
+    {
+      "name": "randomcrop",
+      "args": {
+        "size": 40
+      }
+    }
+  ]
+}

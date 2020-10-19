@@ -1,0 +1,54 @@
+{
+  "folders": [
+    {
+      "name": "Project Root",
+      "path": ".",
+    },
+    // adding more roots here may cause problems in linting
+    //{
+    //  "name": "Dataset Library",
+    //  "path": "src/lib/dataset",
+    //},
+    //{
+    //  "name": "Model Library",
+    //  "path": "src/lib/model",
+    //},
+  ],
+  "settings": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "python.sortImports.args": [
+      "--sp",
+      "${workspaceFolder}/pyproject.toml"
+    ],
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": [
+      "-v",
+      "--config",
+      "${workspaceFolder}/pyproject.toml"
+    ],
+    "[python]": {
+      "editor.formatOnSave": true,
+      "editor.formatOnPaste": true,
+    },
+    "python.pythonPath": "/home/aab10821no/anaconda3/envs/dpc/bin/python",
+    "python.condaPath": "/home/aab10821no/anaconda3/bin/conda",
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.mypyEnabled": true,
+    "python.linting.mypyArgs": [
+      "-v",
+      "--config-file",
+      "${workspaceFolder}/mypy.ini",
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+      "-v",
+      "--config",
+      "${workspaceFolder}/tox.ini"
+    ],
+    "python.linting.lintOnSave": true,
+  }
+}

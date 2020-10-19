@@ -1,0 +1,13 @@
+{
+  "optimizer": {
+    "name": "sgd",
+    "args": {
+      "lr": 0.001,
+      "weight_decay": 0.00001
+    }
+  },
+  "scheduler": {
+    "name": "none",
+    "args": {}
+  }
+}
