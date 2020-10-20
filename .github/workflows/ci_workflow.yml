@@ -22,6 +22,13 @@ jobs:
           environment-file: environment.yml
           python-version: 3.7
           auto-activate-base: false
+      - name: Print environment
+        shell: bash -l {0}
+        run: |
+          conda info
+          conda list
+          which pytest
+          which mypy
       - name: Run Pytest
         run: python -m pytest
       - name: Run Type Check
