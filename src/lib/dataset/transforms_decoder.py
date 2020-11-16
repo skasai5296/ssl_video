@@ -1,7 +1,7 @@
 import json
 from typing import Any, Dict, List, Mapping, Tuple
 
-from . import spatial_transforms, temporal_transforms
+from lib.dataset import spatial_transforms, temporal_transforms
 
 
 class SpatialTransformRepository:
