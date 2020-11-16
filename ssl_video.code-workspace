@@ -2,17 +2,8 @@
   "folders": [
     {
       "name": "Project Root",
-      "path": ".",
-    },
-    // adding more roots here may cause problems in linting
-    //{
-    //  "name": "Dataset Library",
-    //  "path": "src/lib/dataset",
-    //},
-    //{
-    //  "name": "Model Library",
-    //  "path": "src/lib/model",
-    //},
+      "path": "."
+    }
   ],
   "settings": {
     "editor.codeActionsOnSave": {

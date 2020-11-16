@@ -4,10 +4,10 @@ from typing import Any, Dict, Mapping, Tuple, Type, Union
 from torch import nn, optim
 from torch.optim import lr_scheduler
 
-OPTIMIZER_TYPE = Any  # change to optim.Optimizer for torch >= 1.5.0
-SCHEDULER_TYPE = (
-    Any  # change to Union[lr_scheduler._LRScheduler, lr_scheduler.ReduceLROnPlateau]
-)
+# change to optim.Optimizer for torch >= 1.5.0
+OPTIMIZER_TYPE = Any
+# TODO: change to Union[lr_scheduler._LRScheduler, lr_scheduler.ReduceLROnPlateau]
+SCHEDULER_TYPE = Any
 
 
 class OptimizerRepository:

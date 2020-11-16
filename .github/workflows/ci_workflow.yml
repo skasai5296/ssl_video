@@ -1,0 +1,30 @@
+name: Python CI
+
+on:
+  push:
+    branches:
+      main
+  pull_request:
+    branches:
+      main
+
+jobs:
+  test:
+    name: Python test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Setup Anaconda
+        uses: conda-incubator/setup-miniconda@v1
+        with:
+          activate-environment: dpc
+          environment-file: environment.yml
+          python-version: 3.7
+          auto-activate-base: false
+      - name: Run Pytest
+        shell: bash -l {0}
+        run: pytest -v
+      - name: Run Type Check
+        shell: bash -l {0}
+        run: mypy -v
